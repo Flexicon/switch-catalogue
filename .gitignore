@@ -1,0 +1,4 @@
+# IDE / file explorer
+.DS_Store
+.idea/
+.vscode
