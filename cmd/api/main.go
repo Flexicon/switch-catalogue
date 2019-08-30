@@ -1,16 +1,18 @@
 package main
 
 import (
-	"github.com/flexicon/switch-catalogue/pkg/http/middleware"
-	"github.com/flexicon/switch-catalogue/pkg/http/rpc"
-	"github.com/labstack/echo/v4"
+	"github.com/flexicon/switch-catalogue/pkg/http/handler"
+	"github.com/flexicon/switch-catalogue/pkg/http/router"
 )
 
 func main() {
-	e := echo.New()
+	r := router.New()
+	base := r.Group("")
+	api := r.Group("/api")
 
-	middleware.SetupGlobalMiddleware(e)
-	rpc.SetupRoutes(e)
+	h := handler.NewHandler()
+	h.RegisterBase(base)
+	h.RegisterApi(api)
 
-	e.Logger.Fatal(e.Start(":3000"))
+	r.Logger.Fatal(r.Start(":3000"))
 }
