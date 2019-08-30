@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/flexicon/switch-catalogue/pkg/http/handler"
 	"github.com/flexicon/switch-catalogue/pkg/http/router"
+	_ "github.com/joho/godotenv/autoload"
+	"os"
 )
 
 func main() {
@@ -14,5 +17,11 @@ func main() {
 	h.RegisterBase(base)
 	h.RegisterApi(api)
 
-	r.Logger.Fatal(r.Start(":3000"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "80"
+	}
+
+	address := fmt.Sprintf(":%s", port)
+	r.Logger.Fatal(r.Start(address))
 }
