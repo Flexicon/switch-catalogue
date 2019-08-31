@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"github.com/flexicon/switch-catalogue/pkg/db/model"
+	"github.com/flexicon/switch-catalogue/pkg/model"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"os"

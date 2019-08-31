@@ -9,4 +9,5 @@ func (h *Handler) RegisterBase(base *echo.Group) {
 }
 
 func (h *Handler) RegisterApi(api *echo.Group) {
+	api.GET("/games", h.GameFeed)
 }
