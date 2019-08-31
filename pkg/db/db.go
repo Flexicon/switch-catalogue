@@ -8,6 +8,14 @@ import (
 	"os"
 )
 
+type config struct {
+	host   string
+	port   string
+	user   string
+	pass   string
+	dbName string
+}
+
 func New() *gorm.DB {
 	db, err := gorm.Open("postgres", prepareConnectionString())
 	if err != nil {
@@ -19,7 +27,26 @@ func New() *gorm.DB {
 	return db
 }
 
+func AutoMigrate(d *gorm.DB) {
+	d.AutoMigrate(
+		&model.Game{},
+	)
+}
+
 func prepareConnectionString() string {
+	c := newConfig()
+
+	return fmt.Sprintf(
+		"host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+		c.host,
+		c.port,
+		c.user,
+		c.dbName,
+		c.pass,
+	)
+}
+
+func newConfig() *config {
 	host := os.Getenv("DB_HOST")
 	if host == "" {
 		host = "127.0.0.1"
@@ -45,18 +72,11 @@ func prepareConnectionString() string {
 		dbName = "switch-catalogue"
 	}
 
-	return fmt.Sprintf(
-		"host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
-		host,
-		port,
-		user,
-		dbName,
-		pass,
-	)
-}
-
-func AutoMigrate(d *gorm.DB) {
-	d.AutoMigrate(
-		&model.Game{},
-	)
+	return &config{
+		host:   host,
+		port:   port,
+		user:   user,
+		pass:   pass,
+		dbName: dbName,
+	}
 }

@@ -1,12 +1,14 @@
 package handler
 
-import "github.com/flexicon/switch-catalogue/pkg/listing"
+import (
+	"github.com/flexicon/switch-catalogue/pkg/game"
+)
 
 type Handler struct {
-	listingGameService *listing.GameService
+	listingGameService game.ListingService
 }
 
-func NewHandler(lgs *listing.GameService) Handler {
+func NewHandler(lgs game.ListingService) Handler {
 	return Handler{
 		listingGameService: lgs,
 	}
