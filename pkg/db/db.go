@@ -9,20 +9,24 @@ import (
 )
 
 type config struct {
-	host   string
-	port   string
-	user   string
-	pass   string
-	dbName string
+	host    string
+	port    string
+	user    string
+	pass    string
+	dbName  string
+	verbose bool
 }
 
 func New() *gorm.DB {
-	db, err := gorm.Open("postgres", prepareConnectionString())
+	c := newConfig()
+	db, err := gorm.Open("postgres", prepareConnectionString(c))
 	if err != nil {
 		panic(fmt.Sprintf("Failed to connect to database: %s", err))
 	}
 
-	db.LogMode(true)
+	if c.verbose {
+		db.LogMode(true)
+	}
 
 	return db
 }
@@ -33,9 +37,7 @@ func AutoMigrate(d *gorm.DB) {
 	)
 }
 
-func prepareConnectionString() string {
-	c := newConfig()
-
+func prepareConnectionString(c *config) string {
 	return fmt.Sprintf(
 		"host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 		c.host,
@@ -72,11 +74,18 @@ func newConfig() *config {
 		dbName = "switch-catalogue"
 	}
 
+	verbose := false
+	v := os.Getenv("DB_LOG_VERBOSE")
+	if v == "true" {
+		verbose = true
+	}
+
 	return &config{
-		host:   host,
-		port:   port,
-		user:   user,
-		pass:   pass,
-		dbName: dbName,
+		host:    host,
+		port:    port,
+		user:    user,
+		pass:    pass,
+		dbName:  dbName,
+		verbose: verbose,
 	}
 }
