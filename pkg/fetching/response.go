@@ -1,4 +1,4 @@
-package api
+package fetching
 
 type GameResponse struct {
 	Title          string   `json:"title"`

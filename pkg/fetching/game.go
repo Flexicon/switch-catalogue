@@ -1,4 +1,4 @@
-package api
+package fetching
 
 type Game struct {
 	Title       string

@@ -1,4 +1,4 @@
-package api
+package fetching
 
 import (
 	"encoding/json"
