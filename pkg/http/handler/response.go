@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/flexicon/switch-catalogue/pkg/model"
+	"github.com/flexicon/switch-catalogue/pkg/store"
 	"math"
 )
 
@@ -18,14 +18,14 @@ type gameFeedResponse struct {
 	Count      int             `json:"count"`
 }
 
-func newGameResponse(game *model.Game) *gameResponse {
+func newGameResponse(game *store.Game) *gameResponse {
 	return &gameResponse{
 		ID:    game.ID,
 		Title: game.Title,
 	}
 }
 
-func newGameFeedResponse(games []*model.Game, page, limit, count int) *gameFeedResponse {
+func newGameFeedResponse(games []*store.Game, page, limit, count int) *gameFeedResponse {
 	r := &gameFeedResponse{}
 	r.Games = make([]*gameResponse, 0)
 	r.Page = page

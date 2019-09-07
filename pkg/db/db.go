@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"github.com/flexicon/switch-catalogue/pkg/model"
+	"github.com/flexicon/switch-catalogue/pkg/store"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"os"
@@ -33,7 +33,7 @@ func New() *gorm.DB {
 
 func AutoMigrate(d *gorm.DB) {
 	d.AutoMigrate(
-		&model.Game{},
+		&store.Game{},
 	)
 }
 
