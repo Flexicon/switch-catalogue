@@ -7,7 +7,11 @@ import (
 )
 
 func messageWithUnderline(msg string) string {
+	if msg == "" {
+		return ""
+	}
 	underline := strings.Repeat("=", utf8.RuneCountInString(msg))
+
 	return fmt.Sprintf("%s\n%s\n", msg, underline)
 }
 

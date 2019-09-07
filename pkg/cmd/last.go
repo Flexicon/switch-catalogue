@@ -7,7 +7,7 @@ import (
 
 func actionLast(cmd *Cmd) func(c *cli.Context) error {
 	return func(c *cli.Context) error {
-		printWithUnderline("Last added games")
+		fmt.Println(messageWithUnderline("Last added games"))
 
 		limit := c.Int("limit")
 		games, count, err := cmd.listingGameService.LastAdded(limit)

@@ -5,3 +5,6 @@
 
 # Environment stuff
 .env
+
+# Testing, coverage and other reports
+cover.out

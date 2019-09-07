@@ -1,16 +1,18 @@
 package fetching
 
-type NGameResponse struct {
+type nGameResponse struct {
 	Title          string   `json:"title"`
 	ProductCodeTxt []string `json:"product_code_txt"`
 	FsId           string   `json:"fs_id"`
 	Url            string   `json:"url"`
 }
 
-type NResponse struct {
-	Response struct {
-		Docs []NGameResponse `json:"docs"`
-	} `json:"response"`
+type nNestedResponse struct {
+	Docs []nGameResponse `json:"docs"`
+}
+
+type nResponse struct {
+	Response nNestedResponse `json:"response"`
 }
 
 type Game struct {
@@ -20,7 +22,7 @@ type Game struct {
 	Url         string
 }
 
-func newGameFromResponse(r NGameResponse) *Game {
+func newGameFromResponse(r nGameResponse) *Game {
 	return &Game{
 		Title:       r.Title,
 		ProductCode: r.ProductCodeTxt[0],
@@ -29,7 +31,7 @@ func newGameFromResponse(r NGameResponse) *Game {
 	}
 }
 
-func gamesListFromResponse(r NResponse) []*Game {
+func gamesListFromResponse(r nResponse) []*Game {
 	games := make([]*Game, 0)
 
 	for _, g := range r.Response.Docs {

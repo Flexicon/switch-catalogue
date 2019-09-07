@@ -22,8 +22,12 @@ type GameApi interface {
 	FetchGames(offset, limit int, newest bool) ([]*Game, error)
 }
 
+type httpClient interface {
+	Get(url string) (resp *http.Response, err error)
+}
+
 type GameApiService struct {
-	httpClient *http.Client
+	httpClient httpClient
 }
 
 func NewGameApiService() *GameApiService {
@@ -37,7 +41,7 @@ func NewGameApiService() *GameApiService {
 }
 
 func (s *GameApiService) FetchGames(offset, limit int, newest bool) ([]*Game, error) {
-	var nResponse NResponse
+	var nResponse nResponse
 	apiUrl := prepareUrl(offset, limit, newest)
 
 	res, err := s.httpClient.Get(apiUrl)
