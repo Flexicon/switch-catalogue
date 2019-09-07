@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/flexicon/switch-catalogue/pkg/adding"
-	"github.com/flexicon/switch-catalogue/pkg/commandline"
+	"github.com/flexicon/switch-catalogue/pkg/cmd"
 	"github.com/flexicon/switch-catalogue/pkg/db"
 	"github.com/flexicon/switch-catalogue/pkg/fetching"
 	"github.com/flexicon/switch-catalogue/pkg/listing"
@@ -19,7 +19,7 @@ func main() {
 	lgs := listing.NewGameService(gs)
 	ags := adding.NewGameService(gs)
 
-	c := commandline.New(lgs, ags, gApi)
+	c := cmd.New(lgs, ags, gApi)
 	c.RegisterFlags()
 	c.RegisterCommands()
 

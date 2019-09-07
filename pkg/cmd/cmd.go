@@ -1,4 +1,4 @@
-package commandline
+package cmd
 
 import (
 	"github.com/flexicon/switch-catalogue/pkg/fetching"
@@ -31,4 +31,37 @@ func New(lgs game.ListingService, ags game.AddingService, ga fetching.GameApi) *
 
 func (cmd *Cmd) Run() error {
 	return cmd.app.Run(os.Args)
+}
+
+func (cmd *Cmd) RegisterFlags() {
+	cmd.app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:  "dry-run, d",
+			Usage: "Run a command without persisting changes",
+		},
+	}
+}
+
+func (cmd *Cmd) RegisterCommands() {
+	cmd.app.Commands = []cli.Command{
+		{
+			Name:    "last",
+			Aliases: []string{"l"},
+			Usage:   "Show the games last added to the system",
+			Flags: []cli.Flag{
+				cli.IntFlag{
+					Name:  "limit",
+					Usage: "Limits the amount of games to show",
+					Value: 10,
+				},
+			},
+			Action: actionLast(cmd),
+		},
+		{
+			Name:    "fetch",
+			Aliases: []string{"f"},
+			Usage:   "Scrape for new games",
+			Action:  actionFetch(cmd),
+		},
+	}
 }

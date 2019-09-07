@@ -37,7 +37,7 @@ func NewGameApiService() *GameApiService {
 }
 
 func (s *GameApiService) FetchGames(offset, limit int, newest bool) ([]*Game, error) {
-	var nresponse NResponse
+	var nResponse NResponse
 	apiUrl := prepareUrl(offset, limit, newest)
 
 	res, err := s.httpClient.Get(apiUrl)
@@ -50,12 +50,12 @@ func (s *GameApiService) FetchGames(offset, limit int, newest bool) ([]*Game, er
 		return nil, err
 	}
 
-	err = json.Unmarshal(buf, &nresponse)
+	err = json.Unmarshal(buf, &nResponse)
 	if err != nil {
 		return nil, err
 	}
 
-	return gamesListFromResponse(nresponse), nil
+	return gamesListFromResponse(nResponse), nil
 }
 
 func prepareUrl(offset, limit int, newest bool) string {

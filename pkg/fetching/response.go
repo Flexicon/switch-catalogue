@@ -1,6 +1,6 @@
 package fetching
 
-type GameResponse struct {
+type NGameResponse struct {
 	Title          string   `json:"title"`
 	ProductCodeTxt []string `json:"product_code_txt"`
 	FsId           string   `json:"fs_id"`
@@ -9,7 +9,7 @@ type GameResponse struct {
 
 type NResponse struct {
 	Response struct {
-		Docs []GameResponse `json:"docs"`
+		Docs []NGameResponse `json:"docs"`
 	} `json:"response"`
 }
 
@@ -20,7 +20,7 @@ type Game struct {
 	Url         string
 }
 
-func newGameFromResponse(r GameResponse) *Game {
+func newGameFromResponse(r NGameResponse) *Game {
 	return &Game{
 		Title:       r.Title,
 		ProductCode: r.ProductCodeTxt[0],

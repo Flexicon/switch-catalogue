@@ -1,4 +1,4 @@
-package commandline
+package cmd
 
 import (
 	"fmt"
@@ -9,9 +9,9 @@ func actionFetch(cmd *Cmd) func(c *cli.Context) error {
 	return func(c *cli.Context) error {
 		isDryRun := c.Parent().Bool("dry-run")
 		if isDryRun {
-			printDryRunBanner()
+			fmt.Println(dryRunBanner())
 		}
-		printWithUnderline("Fetching newest / last updated games")
+		fmt.Println(messageWithUnderline("Fetching newest / last updated games"))
 
 		apiGames, err := cmd.gameApi.FetchGames(0, 100, true)
 		if err != nil {
