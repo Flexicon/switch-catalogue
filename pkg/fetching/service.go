@@ -2,17 +2,24 @@ package fetching
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"time"
 )
 
 const (
-	gameApiBaseUrl = "http://search.nintendo-europe.com/en/select?fq=type%3AGAME%20AND%20system_type%3Anintendoswitch*%20AND%20product_code_txt%3A*&q=*&start=0&wt=json&rows=20"
+	gameApiBaseUrl  = "http://search.nintendo-europe.com/en/select"
+	paramFq         = "type:GAME AND system_type:nintendoswitch* AND product_code_txt:*"
+	paramWt         = "json"
+	paramQ          = "*"
+	paramSortTitle  = "sorting_title asc"
+	paramSortNewest = "change_date desc"
 )
 
 type GameApi interface {
-	FetchGames(offset, limit int) ([]*Game, error)
+	FetchGames(offset, limit int, newest bool) ([]*Game, error)
 }
 
 type GameApiService struct {
@@ -29,10 +36,11 @@ func NewGameApiService() *GameApiService {
 	}
 }
 
-func (s *GameApiService) FetchGames(offset, limit int) ([]*Game, error) {
+func (s *GameApiService) FetchGames(offset, limit int, newest bool) ([]*Game, error) {
 	var nresponse NResponse
+	apiUrl := prepareUrl(offset, limit, newest)
 
-	res, err := s.httpClient.Get(gameApiBaseUrl)
+	res, err := s.httpClient.Get(apiUrl)
 	if err != nil {
 		return nil, err
 	}
@@ -48,4 +56,25 @@ func (s *GameApiService) FetchGames(offset, limit int) ([]*Game, error) {
 	}
 
 	return gamesListFromResponse(nresponse), nil
+}
+
+func prepareUrl(offset, limit int, newest bool) string {
+	params := url.Values{}
+	params.Add("start", fmt.Sprint(offset))
+	params.Add("rows", fmt.Sprint(limit))
+	params.Add("fq", paramFq)
+	params.Add("wt", paramWt)
+	params.Add("q", paramQ)
+
+	if newest {
+		params.Add("sort", paramSortNewest)
+	} else {
+		params.Add("sort", paramSortTitle)
+	}
+
+	apiUrl, _ := url.Parse(gameApiBaseUrl)
+
+	apiUrl.RawQuery = params.Encode()
+
+	return apiUrl.String()
 }
