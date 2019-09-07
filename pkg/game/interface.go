@@ -6,6 +6,8 @@ import (
 
 type Store interface {
 	List(offset, limit int) ([]*store.Game, int, error)
+	Save(g *store.Game) error
+	FindByFsId(fsId string) (*store.Game, error)
 }
 
 type ListingService interface {
@@ -13,5 +15,7 @@ type ListingService interface {
 	LastAdded(limit int) ([]*store.Game, int, error)
 }
 
-type AddingService interface {
+type WritingService interface {
+	Upsert(game *store.Game) error
+	BatchUpsert(games []*store.Game) error
 }

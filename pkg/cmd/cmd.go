@@ -10,11 +10,11 @@ import (
 type Cmd struct {
 	app                *cli.App
 	listingGameService game.ListingService
-	addingGameService  game.AddingService
+	writingGameService game.WritingService
 	gameApi            fetching.GameApi
 }
 
-func New(lgs game.ListingService, ags game.AddingService, ga fetching.GameApi) *Cmd {
+func New(lgs game.ListingService, wgs game.WritingService, ga fetching.GameApi) *Cmd {
 	app := cli.NewApp()
 	app.Name = "switch-catalogue cli"
 	app.Usage = "Manage the switch catalogue from the command line"
@@ -24,7 +24,7 @@ func New(lgs game.ListingService, ags game.AddingService, ga fetching.GameApi) *
 	return &Cmd{
 		app:                app,
 		listingGameService: lgs,
-		addingGameService:  ags,
+		writingGameService: wgs,
 		gameApi:            ga,
 	}
 }

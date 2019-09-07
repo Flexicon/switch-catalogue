@@ -7,6 +7,7 @@ import (
 	"github.com/flexicon/switch-catalogue/pkg/listing"
 	"github.com/flexicon/switch-catalogue/pkg/store"
 	_ "github.com/joho/godotenv/autoload"
+	"os"
 )
 
 func main() {
@@ -17,7 +18,9 @@ func main() {
 	api := r.Group("/api")
 
 	d := db.New()
-	db.AutoMigrate(d)
+	if os.Getenv("APP_ENV") == "DEV" {
+		db.AutoMigrate(d)
+	}
 
 	gs := store.NewGameStore(d)
 

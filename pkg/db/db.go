@@ -35,6 +35,8 @@ func AutoMigrate(d *gorm.DB) {
 	d.AutoMigrate(
 		&store.Game{},
 	)
+
+	d.Model(&store.Game{}).AddUniqueIndex("ngame_unique_fs_id", "fs_id")
 }
 
 func prepareConnectionString(c *config) string {
