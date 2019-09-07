@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// TODO: varchar/maxsizes to the string columns. Currently their column type is text which isn't great.
 type Game struct {
 	ID          uint `gorm:"primary_key"`
 	CreatedAt   time.Time

@@ -43,6 +43,7 @@ func actionFetch(cmd *Cmd) func(c *cli.Context) error {
 	}
 }
 
+// TODO: move this logic to the fetching package. Using the store.Game struct in more places should simplify a lot
 func convertApiGamesToModels(games []*fetching.Game) []*store.Game {
 	models := make([]*store.Game, 0)
 
