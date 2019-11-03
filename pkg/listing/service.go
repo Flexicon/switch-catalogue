@@ -13,7 +13,7 @@ func NewGameService(store game.Store) *GameService {
 	return &GameService{store: store}
 }
 
-func (gs *GameService) Feed(page, limit int) ([]*store.Game, int) {
+func (gs *GameService) Feed(page, limit int) ([]*store.Game, int, error) {
 	offset := (page - 1) * limit
 	if offset < 0 {
 		offset = 0
@@ -21,10 +21,10 @@ func (gs *GameService) Feed(page, limit int) ([]*store.Game, int) {
 
 	games, count, err := gs.store.List(offset, limit)
 	if err != nil {
-		return nil, 0
+		return nil, 0, err
 	}
 
-	return games, count
+	return games, count, nil
 }
 
 func (gs *GameService) LastAdded(limit int) (games []*store.Game, count int, err error) {

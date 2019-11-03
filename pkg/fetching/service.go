@@ -3,6 +3,7 @@ package fetching
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/flexicon/switch-catalogue/pkg/store"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -19,7 +20,7 @@ const (
 )
 
 type GameApi interface {
-	FetchGames(offset, limit int, newest bool) ([]*Game, error)
+	FetchGames(offset, limit int, newest bool) ([]*store.Game, error)
 }
 
 type httpClient interface {
@@ -40,7 +41,7 @@ func NewGameApiService() *GameApiService {
 	}
 }
 
-func (s *GameApiService) FetchGames(offset, limit int, newest bool) ([]*Game, error) {
+func (s *GameApiService) FetchGames(offset, limit int, newest bool) ([]*store.Game, error) {
 	var nResponse nResponse
 	apiUrl := prepareUrl(offset, limit, newest)
 

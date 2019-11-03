@@ -1,6 +1,7 @@
 package fetching
 
 import (
+	"github.com/flexicon/switch-catalogue/pkg/store"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -12,7 +13,7 @@ func TestNewGameResponse(t *testing.T) {
 		FsId:           "FS_123",
 		Url:            "https://some.url.com",
 	})
-	expected := &Game{
+	expected := &store.Game{
 		Title:       "Super Mario",
 		ProductCode: "S12345",
 		FsId:        "FS_123",
@@ -40,7 +41,7 @@ func TestGamesListFromResponse(t *testing.T) {
 		}},
 	}
 	actual := gamesListFromResponse(testResponse)
-	expected := []*Game{
+	expected := []*store.Game{
 		{
 			Title:       "Super Mario",
 			ProductCode: "S12345",

@@ -18,6 +18,11 @@ type gameFeedResponse struct {
 	Count      int             `json:"count"`
 }
 
+type errorResponse struct {
+	Message string `json:"message"`
+	Code    int    `json:"code"`
+}
+
 func newGameResponse(game *store.Game) *gameResponse {
 	return &gameResponse{
 		ID:    game.ID,
@@ -26,12 +31,13 @@ func newGameResponse(game *store.Game) *gameResponse {
 }
 
 func newGameFeedResponse(games []*store.Game, page, limit, count int) *gameFeedResponse {
-	r := &gameFeedResponse{}
-	r.Games = make([]*gameResponse, 0)
-	r.Page = page
-	r.Limit = limit
-	r.Count = count
-	r.TotalPages = int(math.Ceil(float64(count) / float64(limit)))
+	r := &gameFeedResponse{
+		Games:      make([]*gameResponse, 0),
+		Page:       page,
+		Limit:      limit,
+		Count:      count,
+		TotalPages: int(math.Ceil(float64(count) / float64(limit))),
+	}
 
 	for _, game := range games {
 		r.Games = append(r.Games, newGameResponse(game))

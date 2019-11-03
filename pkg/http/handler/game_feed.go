@@ -16,7 +16,12 @@ func (h *Handler) GameFeed(c echo.Context) error {
 		limit = 10
 	}
 
-	games, count := h.listingGameService.Feed(page, limit)
+	games, count, err := h.listingGameService.Feed(page, limit)
+	// TODO: investigate some sort of generic error handler
+	if err != nil {
+		code := http.StatusInternalServerError
+		return c.JSON(code, &errorResponse{Message: "Something went wrong", Code: code})
+	}
 
 	return c.JSON(http.StatusOK, newGameFeedResponse(games, page, limit, count))
 }

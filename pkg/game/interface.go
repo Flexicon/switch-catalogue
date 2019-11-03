@@ -11,7 +11,7 @@ type Store interface {
 }
 
 type ListingService interface {
-	Feed(page, limit int) ([]*store.Game, int)
+	Feed(page, limit int) ([]*store.Game, int, error)
 	LastAdded(limit int) ([]*store.Game, int, error)
 }
 

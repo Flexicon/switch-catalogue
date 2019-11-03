@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"github.com/flexicon/switch-catalogue/pkg/store"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"io/ioutil"
@@ -76,7 +77,7 @@ func TestGameApiService_FetchGames_Success(t *testing.T) {
 	games, err := service.FetchGames(0, 1, false)
 
 	assert.Nil(t, err)
-	assert.IsType(t, []*Game{}, games)
+	assert.IsType(t, []*store.Game{}, games)
 	assert.Len(t, games, 1)
 }
 

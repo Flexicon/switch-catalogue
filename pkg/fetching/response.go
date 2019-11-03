@@ -1,6 +1,9 @@
 package fetching
 
-import "time"
+import (
+	"github.com/flexicon/switch-catalogue/pkg/store"
+	"time"
+)
 
 type nGameResponse struct {
 	Title          string    `json:"title"`
@@ -18,16 +21,8 @@ type nResponse struct {
 	Response nNestedResponse `json:"response"`
 }
 
-type Game struct {
-	Title       string
-	ProductCode string
-	FsId        string
-	Url         string
-	ChangeDate  time.Time
-}
-
-func newGameFromResponse(r nGameResponse) *Game {
-	return &Game{
+func newGameFromResponse(r nGameResponse) *store.Game {
+	return &store.Game{
 		Title:       r.Title,
 		ProductCode: r.ProductCodeTxt[0],
 		FsId:        r.FsId,
@@ -36,8 +31,8 @@ func newGameFromResponse(r nGameResponse) *Game {
 	}
 }
 
-func gamesListFromResponse(r nResponse) []*Game {
-	games := make([]*Game, 0)
+func gamesListFromResponse(r nResponse) []*store.Game {
+	games := make([]*store.Game, 0)
 
 	for _, g := range r.Response.Docs {
 		games = append(games, newGameFromResponse(g))
